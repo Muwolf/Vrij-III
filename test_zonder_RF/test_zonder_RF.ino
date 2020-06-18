@@ -12,7 +12,7 @@
 
 #define LED_PIN 6
 #define NUMPIXELS 144
-#define MAX_BRIGHTNESS 127
+#define MAX_BRIGHTNESS 255
 #define MAX_TEMPO 100
 
 
@@ -43,14 +43,14 @@ void setup()
 {
 
   Serial.begin(9600);
-  Serial.print("Hello! ");
+  //Serial.print("Hello! ");
   ledStrip.begin();
   ledStrip.setBrightness(MAX_BRIGHTNESS);
   for (int i = 0; i < NUMPIXELS; i++) {
     ledStrip.setPixelColor(i, ledStrip.Color(0, 0, 0));
   }
   ledStrip.show();
-  Serial.println("- Setup Done");
+  //Serial.println("- Setup Done");
 }
 
 /* ==== Loop ==== */
@@ -59,9 +59,9 @@ void loop()
 {
 
   /* ----- static values, will be based on sensory imput) ----- */
-  maxRed = 50;
+  maxRed = 250;
   maxGreen = 100;
-  maxBlue = 150;
+  maxBlue = 10;
   num_leds_on = 10;
   tempo =  5;
 
@@ -78,7 +78,7 @@ void loop()
   /* ----- He's Making a list, and checking it twice ----- */ 
 
   for (int i = 0; i < num_leds_on; i++) {
-    int y = random(0, NUMPIXELS);
+    int y = random(NUMPIXELS);
     list[i] = y;
     Serial.print(i);
     Serial.print(": ");
@@ -105,25 +105,25 @@ void loop()
     blue = adjustColor(blue, speedBlue);
     speedBlue = speedCheck(blue, speedBlue, maxBlue);
 
-    Serial.print("Itteration: ");
-    Serial.print(i / tempo);
-    Serial.print(" out of: ");
-    Serial.print(x / tempo);
-    Serial.print(" - Red: ");
-    Serial.print(red);
-    Serial.print(" Green: ");
-    Serial.print(green);
-    Serial.print(" Blue: ");
-    Serial.print(blue);
+    //Serial.print("Itteration: ");
+    //Serial.print(i / tempo);
+    //Serial.print(" out of: ");
+    //Serial.print(x / tempo);
+    //Serial.print(" - Red: ");
+    //Serial.print(red);
+    //Serial.print(" Green: ");
+    //Serial.print(green);
+    //Serial.print(" Blue: ");
+    //Serial.print(blue);
 
   /* ----- This forloop should only light up the leds in the list. Instead i get a lot of strange values ----- */
 
-    for (int j = 0; j <= sizeof(list) ; j++) {
-      Serial.print(" - Led#: ");
-      Serial.println(list[j]);
+    for (int j = 0; j <= NUMPIXELS ; j++) {
+      //Serial.print(" - Led#: ");
+      //Serial.println(list[j]);
       ledStrip.setPixelColor(list[j], red, green, blue); 
-      ledStrip.show();
     }
+    ledStrip.show();
   }
   
   /* ----- Clear the list ----- */
@@ -131,7 +131,7 @@ void loop()
     list[i] = 0;
   }
 
-  Serial.println("End of loop");
+  //Serial.println("End of loop");
 }
 
 int adjustColor(int _color, int _colorSpeed) {
